@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="battery-finder">
+      <div class="bg-primary">
+        <h1 class="text-center text-white py-3">Battery Finder Program</h1>
+      </div>
+      <div class="container justify-content-center">
+        <div class="row my-3">
+          <div class="col-12">
+            <p>Step1: Select your brand</p>
+            <div class="col-3">
+              <select
+                class="form-select"
+                id="brand-select"
+                data-default-value="Cakon"
+              >
+                <option value="Cakon">Cakon</option>
+                <option value="Go MN">Go MN</option>
+                <option value="VANY">VANY</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="row my-3">
+          <div class="col-12">
+            <p>Step2: Select your model</p>
+            <div class="col-3">
+              <select class="form-select" id="model-select"></select>
+            </div>
+          </div>
+        </div>
+        <div class="row my-3">
+          <div class="col-12">
+            <p>Step3: Input accessory power consumption</p>
+            <div class="col-3">
+              <div class="d-flex align-items-center">
+                <input
+                  type="number"
+                  class="form-control"
+                  id="power-input"
+                  min="0"
+                  max="100"
+                  step="1"
+                  data-default-value="0"
+                />
+                <span class="ms-2">W</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row my-3">
+          <div class="col-12">
+            <p>Step4: Choose your battery</p>
+            <div class="col-12" id="battery-list">
+              <div class="battery-table"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="script.js"></script>
+</html>
