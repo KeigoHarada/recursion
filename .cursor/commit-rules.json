@@ -1,0 +1,48 @@
+{
+  "commitRules": {
+    "conventional": {
+      "types": [
+        "feat",
+        "fix",
+        "docs",
+        "style",
+        "refactor",
+        "test",
+        "chore",
+        "perf"
+      ],
+      "scopes": [
+        "auth",
+        "database",
+        "ui",
+        "api",
+        "core",
+        "config",
+        "docs",
+        "tests"
+      ],
+      "maxSubjectLength": 50,
+      "maxBodyLineLength": 72,
+      "template": {
+        "subject": "<type>(<scope>): <subject>",
+        "body": [
+          "",
+          "# 変更内容の詳細説明（なぜこの変更が必要か）:",
+          "- ",
+          "- ",
+          "",
+          "# Breaking Changes（ある場合）:",
+          "",
+          "# 関連するIssue:",
+          "Closes #"
+        ]
+      },
+      "examples": [
+        "feat(auth): Add OAuth2 authentication system",
+        "fix(database): Fix connection timeout issue",
+        "refactor(core): Simplify error handling logic",
+        "docs(api): Update API documentation"
+      ]
+    }
+  }
+}
