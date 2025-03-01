@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>シンプルチャットアプリ</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- ルーム作成・参加画面 -->
+    <div id="room-screen" class="screen active">
+      <div class="container">
+        <h1>シンプルチャットアプリ</h1>
+        <div class="form-group">
+          <h2>ルームを作成</h2>
+          <input
+            type="text"
+            id="create-room-input"
+            placeholder="新しいルーム名"
+          />
+          <input
+            type="text"
+            id="create-username-input"
+            placeholder="あなたのユーザー名"
+          />
+          <button id="create-room-btn">ルームを作成</button>
+        </div>
+        <div class="form-group">
+          <h2>ルームに参加</h2>
+          <input type="text" id="join-room-input" placeholder="ルームID" />
+          <input
+            type="text"
+            id="join-username-input"
+            placeholder="あなたのユーザー名"
+          />
+          <button id="join-room-btn">ルームに参加</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- チャット画面 -->
+    <div id="chat-screen" class="screen">
+      <div class="container">
+        <div class="chat-header">
+          <h2 id="room-name">ルーム:</h2>
+          <p id="room-id">ルームID:</p>
+          <p id="username">ユーザー名:</p>
+          <button id="leave-room-btn">退室</button>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+          <!-- メッセージはJSで動的に追加されます -->
+        </div>
+        <div class="chat-input">
+          <input
+            type="text"
+            id="message-input"
+            placeholder="メッセージを入力..."
+          />
+          <button id="send-message-btn">送信</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
