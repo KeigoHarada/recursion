@@ -1,149 +1,5 @@
-/**
- * チャットアプリケーション - メインエントリーポイント
- * SOLID原則に基づいたモジュール設計
- */
-
-import ChatService from "./services/ChatService.js";
-import UIController from "./controllers/UIController.js";
-
-/**
- * ユーザーモデル - ユーザー情報を管理
- */
-class User {
-  constructor(username) {
-    this.username = username;
-  }
-
-  getUsername() {
-    return this.username;
-  }
-}
-
-/**
- * メッセージモデル - メッセージデータを管理
- */
-class Message {
-  constructor(sender, content, timestamp) {
-    this.sender = sender;
-    this.content = content;
-    this.timestamp = timestamp || new Date();
-  }
-
-  getFormattedTime() {
-    return this.timestamp.toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  }
-}
-
-/**
- * ルームモデル - チャットルームを管理
- */
-class Room {
-  constructor(name, id) {
-    this.name = name;
-    this.id = id || this._generateRoomId();
-    this.messages = [];
-  }
-
-  _generateRoomId() {
-    return Math.random().toString(36).substring(2, 8).toUpperCase();
-  }
-
-  getName() {
-    return this.name;
-  }
-
-  getId() {
-    return this.id;
-  }
-
-  addMessage(message) {
-    this.messages.push(message);
-    return message;
-  }
-
-  getMessages() {
-    return this.messages;
-  }
-}
-
-/**
- * チャットサービス - バックエンドとの通信を管理
- * 実際のアプリではWebSocketやREST APIを使用
- */
-class ChatService {
-  constructor() {
-    // ローカルストレージをモックデータベースとして使用
-    this.rooms = {};
-    this._loadFromStorage();
-  }
-
-  _loadFromStorage() {
-    const savedRooms = localStorage.getItem("chat_rooms");
-    if (savedRooms) {
-      this.rooms = JSON.parse(savedRooms);
-    }
-  }
-
-  _saveToStorage() {
-    localStorage.setItem("chat_rooms", JSON.stringify(this.rooms));
-  }
-
-  createRoom(name) {
-    const room = new Room(name);
-    this.rooms[room.getId()] = {
-      name: room.getName(),
-      id: room.getId(),
-      messages: [],
-    };
-    this._saveToStorage();
-    return room;
-  }
-
-  joinRoom(roomId) {
-    const roomData = this.rooms[roomId];
-    if (!roomData) {
-      throw new Error("ルームが見つかりません");
-    }
-
-    const room = new Room(roomData.name, roomData.id);
-    // メッセージを復元
-    if (roomData.messages) {
-      roomData.messages.forEach((msg) => {
-        room.addMessage(
-          new Message(msg.sender, msg.content, new Date(msg.timestamp))
-        );
-      });
-    }
-
-    return room;
-  }
-
-  sendMessage(roomId, message) {
-    if (!this.rooms[roomId]) {
-      throw new Error("ルームが見つかりません");
-    }
-
-    // メッセージをルームに追加
-    this.rooms[roomId].messages.push({
-      sender: message.sender,
-      content: message.content,
-      timestamp: message.timestamp,
-    });
-
-    this._saveToStorage();
-    return message;
-  }
-
-  getRoomList() {
-    return Object.keys(this.rooms).map((id) => ({
-      id,
-      name: this.rooms[id].name,
-    }));
-  }
-}
+import User from "../models/User.js";
+import Message from "../models/Message.js";
 
 /**
  * UIコントローラー - ユーザーインターフェースを管理
@@ -177,11 +33,19 @@ class UIController {
     this.leaveRoomBtn = document.getElementById("leave-room-btn");
 
     this._initEventListeners();
+
+    // デバッグ用
+    console.log("UIController initialized");
+    console.log("roomScreen:", this.roomScreen);
+    console.log("chatScreen:", this.chatScreen);
+    console.log("createRoomBtn:", this.createRoomBtn);
+    console.log("joinRoomBtn:", this.joinRoomBtn);
   }
 
   _initEventListeners() {
     // ルーム作成
     this.createRoomBtn.addEventListener("click", () => {
+      console.log("Create room button clicked");
       const roomName = this.createRoomInput.value.trim();
       const username = this.createUsernameInput.value.trim();
 
@@ -194,6 +58,7 @@ class UIController {
 
     // ルーム参加
     this.joinRoomBtn.addEventListener("click", () => {
+      console.log("Join room button clicked");
       const roomId = this.joinRoomInput.value.trim();
       const username = this.joinUsernameInput.value.trim();
 
@@ -224,19 +89,23 @@ class UIController {
 
   _createAndJoinRoom(roomName, username) {
     try {
+      console.log(`Creating room: ${roomName}, username: ${username}`);
       const room = this.chatService.createRoom(roomName);
       this.currentUser = new User(username);
       this.currentRoom = room;
 
       this._switchToChat();
       this._updateRoomInfo();
+      console.log("Switched to chat screen after creating room");
     } catch (error) {
+      console.error("Error creating room:", error);
       alert(`エラー: ${error.message}`);
     }
   }
 
   _joinRoom(roomId, username) {
     try {
+      console.log(`Joining room: ${roomId}, username: ${username}`);
       const room = this.chatService.joinRoom(roomId);
       this.currentUser = new User(username);
       this.currentRoom = room;
@@ -244,7 +113,9 @@ class UIController {
       this._switchToChat();
       this._updateRoomInfo();
       this._loadMessages();
+      console.log("Switched to chat screen after joining room");
     } catch (error) {
+      console.error("Error joining room:", error);
       alert(`エラー: ${error.message}`);
     }
   }
@@ -265,17 +136,20 @@ class UIController {
         this._addMessageToUI(message, true);
         this.messageInput.value = "";
       } catch (error) {
+        console.error("Error sending message:", error);
         alert(`メッセージ送信エラー: ${error.message}`);
       }
     }
   }
 
   _leaveRoom() {
+    console.log("Leaving room");
     this.currentRoom = null;
     this._switchToRoomScreen();
   }
 
   _switchToChat() {
+    console.log("Switching to chat screen");
     this.roomScreen.classList.remove("active");
     this.chatScreen.classList.add("active");
     this.chatMessagesElement.innerHTML = "";
@@ -283,6 +157,7 @@ class UIController {
   }
 
   _switchToRoomScreen() {
+    console.log("Switching to room screen");
     this.chatScreen.classList.remove("active");
     this.roomScreen.classList.add("active");
 
@@ -342,19 +217,4 @@ class UIController {
   }
 }
 
-/**
- * アプリケーション初期化
- */
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("DOM fully loaded");
-
-  try {
-    // 依存性注入の原則に従い、ChatServiceをUIControllerに注入
-    const chatService = new ChatService();
-    const uiController = new UIController(chatService);
-
-    console.log("チャットアプリケーションが初期化されました");
-  } catch (error) {
-    console.error("アプリケーション初期化エラー:", error);
-  }
-});
+export default UIController;
