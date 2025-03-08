@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>秘密の部屋</title>
+    <title>Secret Room</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -14,30 +14,30 @@
     <div id="room-screen" class="screen active">
       <div class="loading-bar"></div>
       <div class="container">
-        <h1>秘密の部屋</h1>
+        <h1>Secret Room</h1>
         <div class="form-group">
-          <h2>ルームを作成</h2>
+          <h2>Create Room</h2>
           <input
             type="text"
             id="create-room-input"
-            placeholder="新しいルーム名"
+            placeholder="New Room Name"
           />
           <input
             type="text"
             id="create-username-input"
-            placeholder="あなたのユーザー名"
+            placeholder="Your Username"
           />
-          <button id="create-room-btn">ルームを作成</button>
+          <button id="create-room-btn">Create Room</button>
         </div>
         <div class="form-group">
-          <h2>ルームに参加</h2>
-          <input type="text" id="join-room-input" placeholder="ルームID" />
+          <h2>Join Room</h2>
+          <input type="text" id="join-room-input" placeholder="Room ID" />
           <input
             type="text"
             id="join-username-input"
-            placeholder="あなたのユーザー名"
+            placeholder="Your Username"
           />
-          <button id="join-room-btn">ルームに参加</button>
+          <button id="join-room-btn">Join Room</button>
         </div>
       </div>
     </div>
@@ -47,10 +47,10 @@
       <div class="loading-bar"></div>
       <div class="container">
         <div class="chat-header">
-          <h2 id="room-name">ルーム:</h2>
-          <p id="room-id">ルームID:</p>
-          <p id="username">ユーザー名:</p>
-          <button id="leave-room-btn">退室</button>
+          <h2 id="room-name">Room:</h2>
+          <p id="room-id">Room ID:</p>
+          <p id="username">Username:</p>
+          <button id="leave-room-btn">Leave Room</button>
         </div>
         <div class="chat-messages" id="chat-messages">
           <!-- メッセージはJSで動的に追加されます -->
@@ -59,78 +59,15 @@
           <input
             type="text"
             id="message-input"
-            placeholder="メッセージを入力..."
+            placeholder="Enter your message..."
           />
-          <button id="send-message-btn">送信</button>
+          <button id="send-message-btn">Send</button>
         </div>
       </div>
     </div>
 
-    <!-- JavaScriptをモジュールとして読み込む -->
+    <!-- JavaScriptファイルの読み込み -->
+    <script src="matrix.js"></script>
     <script type="module" src="app.js"></script>
-
-    <!-- マトリックス風の背景を生成するスクリプト -->
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const matrixRain = document.getElementById("matrix-rain");
-        const characters =
-          "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$+-*/=%\"'#&_(),.;:?!\\|{}<>[]^~";
-        const japaneseChars = "ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜｦﾝ";
-        const rows = Math.floor(window.innerHeight / 15);
-
-        // マトリックス風の文字列を生成
-        for (let i = 0; i < rows; i++) {
-          const column = document.createElement("span");
-          column.style.top = i * 15 + "px";
-
-          // ランダムな文字列を生成
-          let content = "";
-          const length = 15 + Math.random() * 20;
-          const useJapanese = Math.random() > 0.5;
-          const charSet = useJapanese ? japaneseChars : characters;
-
-          for (let j = 0; j < length; j++) {
-            content +=
-              charSet.charAt(Math.floor(Math.random() * charSet.length)) + "\n";
-          }
-
-          column.textContent = content;
-          column.style.animationDuration = 5 + Math.random() * 15 + "s";
-          column.style.animationDelay = Math.random() * 8 + "s";
-          column.style.opacity = 0.5 + Math.random() * 0.5;
-
-          matrixRain.appendChild(column);
-        }
-
-        // 画面サイズが変わったときに再生成
-        window.addEventListener("resize", function () {
-          matrixRain.innerHTML = "";
-          const newRows = Math.floor(window.innerHeight / 15);
-
-          for (let i = 0; i < newRows; i++) {
-            const column = document.createElement("span");
-            column.style.top = i * 15 + "px";
-
-            let content = "";
-            const length = 15 + Math.random() * 20;
-            const useJapanese = Math.random() > 0.5;
-            const charSet = useJapanese ? japaneseChars : characters;
-
-            for (let j = 0; j < length; j++) {
-              content +=
-                charSet.charAt(Math.floor(Math.random() * charSet.length)) +
-                "\n";
-            }
-
-            column.textContent = content;
-            column.style.animationDuration = 5 + Math.random() * 15 + "s";
-            column.style.animationDelay = Math.random() * 8 + "s";
-            column.style.opacity = 0.5 + Math.random() * 0.5;
-
-            matrixRain.appendChild(column);
-          }
-        });
-      });
-    </script>
   </body>
 </html>

@@ -1,6 +1,7 @@
 /* サイバーパンク 8bit ハッカースタイル */
 @import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
 
+/* 変数定義 */
 :root {
   --neon-green: #00ff00;
   --neon-blue: #00ffff;
@@ -10,8 +11,23 @@
   --sent-msg-bg: #001a00;
   --received-msg-bg: #000033;
   --matrix-green: #22ff00;
+  --matrix-green-light: #33ff33;
+  --matrix-green-dark: #00cc00;
+  --matrix-green-bright: #66ff66;
+  --border-radius-sm: 3px;
+  --border-radius-md: 5px;
+  --border-radius-lg: 10px;
+  --shadow-glow: 0 0 15px rgba(0, 255, 0, 0.5);
+  --shadow-inset: 0 0 10px rgba(0, 255, 0, 0.3) inset;
+  --font-size-xs: 8px;
+  --font-size-sm: 10px;
+  --font-size-md: 12px;
+  --font-size-lg: 14px;
+  --font-size-xl: 16px;
+  --font-size-xxl: 1.5rem;
 }
 
+/* ベーススタイル */
 * {
   margin: 0;
   padding: 0;
@@ -56,18 +72,19 @@ body::before {
   margin: 0 auto;
   padding: 20px;
   border: 2px solid var(--neon-green);
-  box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+  box-shadow: var(--shadow-glow);
   position: relative;
   width: 90%;
   height: 90vh;
   overflow: hidden;
-  border-radius: 5px;
+  border-radius: var(--border-radius-md);
   display: flex;
   flex-direction: column;
   background-color: rgba(0, 0, 0, 0.8);
   z-index: 1;
 }
 
+/* 見出し */
 h1 {
   text-align: center;
   margin-bottom: 20px;
@@ -75,7 +92,7 @@ h1 {
   letter-spacing: 2px;
   text-transform: uppercase;
   animation: flicker 2s infinite alternate;
-  font-size: 1.5rem;
+  font-size: var(--font-size-xxl);
 }
 
 h2 {
@@ -86,7 +103,7 @@ h2 {
   font-size: 1rem;
 }
 
-/* アニメーション */
+/* アニメーション定義 */
 @keyframes flicker {
   0%,
   19%,
@@ -209,7 +226,6 @@ h2 {
   }
 }
 
-/* マトリックス風の背景 */
 @keyframes matrixRain {
   0% {
     transform: translateX(-100%);
@@ -219,6 +235,7 @@ h2 {
   }
 }
 
+/* マトリックス風の背景 */
 .matrix-rain {
   position: fixed;
   top: 0;
@@ -235,7 +252,7 @@ h2 {
   display: block;
   color: var(--matrix-green);
   font-family: monospace;
-  font-size: 14px;
+  font-size: var(--font-size-lg);
   text-shadow: 0 0 5px var(--matrix-green);
   animation: matrixRain linear infinite;
   white-space: pre;
@@ -249,15 +266,15 @@ h2 {
 }
 
 .matrix-rain span:nth-child(odd) {
-  color: #33ff33;
+  color: var(--matrix-green-light);
 }
 
 .matrix-rain span:nth-child(3n) {
-  color: #00cc00;
+  color: var(--matrix-green-dark);
 }
 
 .matrix-rain span:nth-child(5n) {
-  color: #66ff66;
+  color: var(--matrix-green-bright);
 }
 
 /* 画面の切り替え */
@@ -294,7 +311,7 @@ h2 {
   left: 50%;
   transform: translate(-50%, -50%);
   color: var(--neon-green);
-  font-size: 1.5rem;
+  font-size: var(--font-size-xxl);
   z-index: 1000;
   animation: loading 1.5s steps(1) infinite, fadeOut 0.5s ease-out 3s forwards;
   opacity: 1;
@@ -339,8 +356,8 @@ h2 {
   border: 1px solid var(--neon-green);
   margin-bottom: 20px;
   position: relative;
-  box-shadow: 0 0 10px rgba(0, 255, 0, 0.3) inset;
-  border-radius: 5px;
+  box-shadow: var(--shadow-inset);
+  border-radius: var(--border-radius-md);
 }
 
 .form-group::after {
@@ -358,7 +375,7 @@ h2 {
     transparent 2px
   );
   pointer-events: none;
-  border-radius: 5px;
+  border-radius: var(--border-radius-md);
 }
 
 input[type="text"] {
@@ -368,10 +385,10 @@ input[type="text"] {
   background-color: #000;
   color: var(--neon-green);
   border: 1px solid var(--neon-green);
-  font-size: 12px;
+  font-size: var(--font-size-md);
   caret-color: var(--neon-green);
   animation: blink 1s infinite;
-  border-radius: 3px;
+  border-radius: var(--border-radius-sm);
 }
 
 input[type="text"]:focus {
@@ -385,13 +402,13 @@ button {
   border: 1px solid var(--neon-green);
   padding: 12px 20px;
   cursor: pointer;
-  font-size: 12px;
+  font-size: var(--font-size-md);
   text-transform: uppercase;
   letter-spacing: 1px;
   transition: all 0.3s;
   position: relative;
   overflow: hidden;
-  border-radius: 3px;
+  border-radius: var(--border-radius-sm);
 }
 
 button::before {
@@ -412,7 +429,7 @@ button::before {
 
 button:hover {
   background-color: #001a00;
-  box-shadow: 0 0 15px rgba(0, 255, 0, 0.7);
+  box-shadow: var(--shadow-glow);
 }
 
 button:hover::before {
@@ -441,7 +458,7 @@ button:hover::before {
   justify-content: space-between;
   align-items: center;
   position: relative;
-  border-radius: 5px 5px 0 0;
+  border-radius: var(--border-radius-md) var(--border-radius-md) 0 0;
 }
 
 .chat-header::before {
@@ -449,7 +466,7 @@ button:hover::before {
   position: absolute;
   top: 5px;
   right: 10px;
-  font-size: 8px;
+  font-size: var(--font-size-xs);
   color: var(--neon-green);
   opacity: 0.7;
 }
@@ -458,13 +475,13 @@ button:hover::before {
   margin: 0;
   flex: 1 1 100%;
   margin-bottom: 10px;
-  font-size: 14px;
+  font-size: var(--font-size-lg);
 }
 
 .chat-header p {
   margin: 0;
   flex: 1;
-  font-size: 10px;
+  font-size: var(--font-size-sm);
   color: #00aa00;
 }
 
@@ -493,16 +510,17 @@ button:hover::before {
   border: 1px solid #000;
 }
 
+/* メッセージスタイル */
 .message {
   margin-bottom: 15px;
   padding: 10px 15px;
   max-width: 80%;
   word-wrap: break-word;
   position: relative;
-  font-size: 10px;
+  font-size: var(--font-size-sm);
   line-height: 1.5;
   border: 1px solid;
-  border-radius: 3px;
+  border-radius: var(--border-radius-sm);
   overflow: hidden;
 }
 
@@ -511,7 +529,8 @@ button:hover::before {
   color: var(--neon-green);
   margin-left: auto;
   border-color: var(--neon-green);
-  border-radius: 10px 10px 0 10px;
+  border-radius: var(--border-radius-lg) var(--border-radius-lg) 0
+    var(--border-radius-lg);
 }
 
 .message.sent::before {
@@ -536,7 +555,8 @@ button:hover::before {
   color: var(--neon-blue);
   margin-right: auto;
   border-color: var(--neon-blue);
-  border-radius: 10px 10px 10px 0;
+  border-radius: var(--border-radius-lg) var(--border-radius-lg)
+    var(--border-radius-lg) 0;
 }
 
 .message.received::before {
@@ -557,7 +577,7 @@ button:hover::before {
 }
 
 .message-info {
-  font-size: 8px;
+  font-size: var(--font-size-xs);
   margin-bottom: 5px;
   font-family: monospace;
 }
@@ -571,6 +591,7 @@ button:hover::before {
   color: #0088aa;
 }
 
+/* チャット入力エリア */
 .chat-input {
   display: flex;
   background-color: var(--panel-bg);
@@ -578,7 +599,7 @@ button:hover::before {
   border: 1px solid var(--neon-green);
   border-top: none;
   position: relative;
-  border-radius: 0 0 5px 5px;
+  border-radius: 0 0 var(--border-radius-md) var(--border-radius-md);
 }
 
 .chat-input::before {
@@ -588,7 +609,7 @@ button:hover::before {
   top: 50%;
   transform: translateY(-50%);
   color: var(--neon-green);
-  font-size: 14px;
+  font-size: var(--font-size-lg);
   font-weight: bold;
 }
 
@@ -597,7 +618,7 @@ button:hover::before {
   margin-bottom: 0;
   margin-right: 10px;
   padding-left: 20px;
-  border-radius: 3px;
+  border-radius: var(--border-radius-sm);
 }
 
 /* レスポンシブデザイン */
