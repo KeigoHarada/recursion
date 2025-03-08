@@ -7,8 +7,12 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <!-- マトリックス風の背景 -->
+    <div id="matrix-rain" class="matrix-rain"></div>
+
     <!-- ルーム作成・参加画面 -->
     <div id="room-screen" class="screen active">
+      <div class="loading-bar"></div>
       <div class="container">
         <h1>秘密の部屋</h1>
         <div class="form-group">
@@ -40,6 +44,7 @@
 
     <!-- チャット画面 -->
     <div id="chat-screen" class="screen">
+      <div class="loading-bar"></div>
       <div class="container">
         <div class="chat-header">
           <h2 id="room-name">ルーム:</h2>
@@ -63,5 +68,69 @@
 
     <!-- JavaScriptをモジュールとして読み込む -->
     <script type="module" src="app.js"></script>
+
+    <!-- マトリックス風の背景を生成するスクリプト -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const matrixRain = document.getElementById("matrix-rain");
+        const characters =
+          "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$+-*/=%\"'#&_(),.;:?!\\|{}<>[]^~";
+        const japaneseChars = "ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜｦﾝ";
+        const rows = Math.floor(window.innerHeight / 15);
+
+        // マトリックス風の文字列を生成
+        for (let i = 0; i < rows; i++) {
+          const column = document.createElement("span");
+          column.style.top = i * 15 + "px";
+
+          // ランダムな文字列を生成
+          let content = "";
+          const length = 15 + Math.random() * 20;
+          const useJapanese = Math.random() > 0.5;
+          const charSet = useJapanese ? japaneseChars : characters;
+
+          for (let j = 0; j < length; j++) {
+            content +=
+              charSet.charAt(Math.floor(Math.random() * charSet.length)) + "\n";
+          }
+
+          column.textContent = content;
+          column.style.animationDuration = 5 + Math.random() * 15 + "s";
+          column.style.animationDelay = Math.random() * 8 + "s";
+          column.style.opacity = 0.5 + Math.random() * 0.5;
+
+          matrixRain.appendChild(column);
+        }
+
+        // 画面サイズが変わったときに再生成
+        window.addEventListener("resize", function () {
+          matrixRain.innerHTML = "";
+          const newRows = Math.floor(window.innerHeight / 15);
+
+          for (let i = 0; i < newRows; i++) {
+            const column = document.createElement("span");
+            column.style.top = i * 15 + "px";
+
+            let content = "";
+            const length = 15 + Math.random() * 20;
+            const useJapanese = Math.random() > 0.5;
+            const charSet = useJapanese ? japaneseChars : characters;
+
+            for (let j = 0; j < length; j++) {
+              content +=
+                charSet.charAt(Math.floor(Math.random() * charSet.length)) +
+                "\n";
+            }
+
+            column.textContent = content;
+            column.style.animationDuration = 5 + Math.random() * 15 + "s";
+            column.style.animationDelay = Math.random() * 8 + "s";
+            column.style.opacity = 0.5 + Math.random() * 0.5;
+
+            matrixRain.appendChild(column);
+          }
+        });
+      });
+    </script>
   </body>
 </html>

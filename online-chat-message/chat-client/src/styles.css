@@ -1,6 +1,17 @@
 /* サイバーパンク 8bit ハッカースタイル */
 @import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
 
+:root {
+  --neon-green: #00ff00;
+  --neon-blue: #00ffff;
+  --neon-pink: #ff00ff;
+  --dark-bg: #0a0a0a;
+  --panel-bg: #111;
+  --sent-msg-bg: #001a00;
+  --received-msg-bg: #000033;
+  --matrix-green: #22ff00;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -10,36 +21,69 @@
 }
 
 body {
-  background-color: #0a0a0a;
-  color: #00ff00;
+  background-color: var(--dark-bg);
+  color: var(--neon-green);
   line-height: 1.4;
-  background-image: linear-gradient(rgba(0, 20, 0, 0.1) 1px, transparent 1px),
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(
+      circle at 50% 50%,
+      rgba(0, 255, 0, 0.1) 0%,
+      transparent 80%
+    ),
+    linear-gradient(rgba(0, 20, 0, 0.1) 1px, transparent 1px),
     linear-gradient(90deg, rgba(0, 20, 0, 0.1) 1px, transparent 1px);
-  background-size: 20px 20px;
+  background-size: 100% 100%, 20px 20px, 20px 20px;
+  z-index: -1;
+  pointer-events: none;
 }
 
 .container {
-  max-width: 800px;
+  max-width: 1000px;
   margin: 0 auto;
   padding: 20px;
-  border: 2px solid #00ff00;
+  border: 2px solid var(--neon-green);
   box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+  position: relative;
+  width: 90%;
+  height: 90vh;
+  overflow: hidden;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1;
 }
 
 h1 {
   text-align: center;
-  margin-bottom: 30px;
-  color: #00ffff;
+  margin-bottom: 20px;
+  color: var(--neon-blue);
   letter-spacing: 2px;
   text-transform: uppercase;
   animation: flicker 2s infinite alternate;
+  font-size: 1.5rem;
 }
 
 h2 {
   margin-bottom: 15px;
-  color: #ff00ff;
+  color: var(--neon-pink);
   text-transform: uppercase;
   letter-spacing: 1px;
+  font-size: 1rem;
 }
 
 /* アニメーション */
@@ -73,12 +117,147 @@ h2 {
 @keyframes blink {
   0%,
   49% {
-    border-color: #00ff00;
+    border-color: var(--neon-green);
   }
   50%,
   100% {
     border-color: transparent;
   }
+}
+
+@keyframes loading {
+  0% {
+    content: "LOADING";
+  }
+  25% {
+    content: "LOADING.";
+  }
+  50% {
+    content: "LOADING..";
+  }
+  75% {
+    content: "LOADING...";
+  }
+  100% {
+    content: "LOADING";
+  }
+}
+
+@keyframes loadingBar {
+  0% {
+    width: 0;
+  }
+  20% {
+    width: 20%;
+    background-color: var(--neon-blue);
+  }
+  40% {
+    width: 40%;
+    background-color: var(--neon-pink);
+  }
+  60% {
+    width: 60%;
+    background-color: var(--neon-blue);
+  }
+  80% {
+    width: 80%;
+    background-color: var(--neon-green);
+  }
+  100% {
+    width: 100%;
+    background-color: var(--neon-green);
+  }
+}
+
+@keyframes typewriter {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes cursor {
+  0%,
+  100% {
+    border-right-color: var(--neon-green);
+  }
+  50% {
+    border-right-color: transparent;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+/* マトリックス風の背景 */
+@keyframes matrixRain {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100vw);
+  }
+}
+
+.matrix-rain {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  overflow: hidden;
+  perspective: 1000px;
+}
+
+.matrix-rain span {
+  position: absolute;
+  display: block;
+  color: var(--matrix-green);
+  font-family: monospace;
+  font-size: 14px;
+  text-shadow: 0 0 5px var(--matrix-green);
+  animation: matrixRain linear infinite;
+  white-space: pre;
+  user-select: none;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  opacity: 0.7;
+  transform-style: preserve-3d;
+  transform: rotateY(30deg);
+  letter-spacing: 2px;
+}
+
+.matrix-rain span:nth-child(odd) {
+  color: #33ff33;
+}
+
+.matrix-rain span:nth-child(3n) {
+  color: #00cc00;
+}
+
+.matrix-rain span:nth-child(5n) {
+  color: #66ff66;
 }
 
 /* 画面の切り替え */
@@ -103,17 +282,65 @@ h2 {
 }
 
 .screen.active {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.screen.active::after {
+  content: "LOADING";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--neon-green);
+  font-size: 1.5rem;
+  z-index: 1000;
+  animation: loading 1.5s steps(1) infinite, fadeOut 0.5s ease-out 3s forwards;
+  opacity: 1;
+  pointer-events: none;
+}
+
+.screen.active::before {
+  content: "";
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 10px;
+  background-color: transparent;
+  border: 1px solid var(--neon-green);
+  z-index: 1000;
+  animation: fadeOut 0.5s ease-out 3s forwards;
+}
+
+.loading-bar {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 8px;
+  background-color: var(--neon-green);
+  z-index: 1001;
+  animation: loadingBar 3s forwards, fadeOut 0.5s ease-out 3s forwards;
+}
+
+.screen.active > * {
+  opacity: 0;
+  animation: fadeIn 0.5s ease-out 3s forwards;
 }
 
 /* フォーム要素 */
 .form-group {
-  background-color: #111;
+  background-color: var(--panel-bg);
   padding: 20px;
-  border: 1px solid #00ff00;
+  border: 1px solid var(--neon-green);
   margin-bottom: 20px;
   position: relative;
   box-shadow: 0 0 10px rgba(0, 255, 0, 0.3) inset;
+  border-radius: 5px;
 }
 
 .form-group::after {
@@ -131,6 +358,7 @@ h2 {
     transparent 2px
   );
   pointer-events: none;
+  border-radius: 5px;
 }
 
 input[type="text"] {
@@ -138,22 +366,23 @@ input[type="text"] {
   padding: 12px;
   margin-bottom: 15px;
   background-color: #000;
-  color: #0f0;
-  border: 1px solid #00ff00;
+  color: var(--neon-green);
+  border: 1px solid var(--neon-green);
   font-size: 12px;
-  caret-color: #0f0;
+  caret-color: var(--neon-green);
   animation: blink 1s infinite;
+  border-radius: 3px;
 }
 
 input[type="text"]:focus {
   outline: none;
-  box-shadow: 0 0 10px #00ff00;
+  box-shadow: 0 0 10px var(--neon-green);
 }
 
 button {
   background-color: #000;
-  color: #0f0;
-  border: 1px solid #00ff00;
+  color: var(--neon-green);
+  border: 1px solid var(--neon-green);
   padding: 12px 20px;
   cursor: pointer;
   font-size: 12px;
@@ -162,6 +391,7 @@ button {
   transition: all 0.3s;
   position: relative;
   overflow: hidden;
+  border-radius: 3px;
 }
 
 button::before {
@@ -202,15 +432,16 @@ button:hover::before {
 
 /* チャット画面 */
 .chat-header {
-  background-color: #111;
+  background-color: var(--panel-bg);
   padding: 15px;
-  border: 1px solid #00ff00;
+  border: 1px solid var(--neon-green);
   border-bottom: none;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   position: relative;
+  border-radius: 5px 5px 0 0;
 }
 
 .chat-header::before {
@@ -219,7 +450,7 @@ button:hover::before {
   top: 5px;
   right: 10px;
   font-size: 8px;
-  color: #00ff00;
+  color: var(--neon-green);
   opacity: 0.7;
 }
 
@@ -238,12 +469,12 @@ button:hover::before {
 }
 
 .chat-messages {
-  background-color: #0a0a0a;
-  height: 60vh;
+  background-color: var(--dark-bg);
+  flex: 1;
   overflow-y: auto;
   padding: 15px;
-  border-left: 1px solid #00ff00;
-  border-right: 1px solid #00ff00;
+  border-left: 1px solid var(--neon-green);
+  border-right: 1px solid var(--neon-green);
   background-image: linear-gradient(rgba(0, 20, 0, 0.1) 1px, transparent 1px),
     linear-gradient(90deg, rgba(0, 20, 0, 0.1) 1px, transparent 1px);
   background-size: 20px 20px;
@@ -258,7 +489,7 @@ button:hover::before {
 }
 
 .chat-messages::-webkit-scrollbar-thumb {
-  background: #00ff00;
+  background: var(--neon-green);
   border: 1px solid #000;
 }
 
@@ -271,22 +502,58 @@ button:hover::before {
   font-size: 10px;
   line-height: 1.5;
   border: 1px solid;
+  border-radius: 3px;
+  overflow: hidden;
 }
 
 .message.sent {
-  background-color: #001a00;
-  color: #00ff00;
+  background-color: var(--sent-msg-bg);
+  color: var(--neon-green);
   margin-left: auto;
-  border-color: #00ff00;
-  clip-path: polygon(0 0, 100% 0, 100% 80%, 95% 100%, 0 100%);
+  border-color: var(--neon-green);
+  border-radius: 10px 10px 0 10px;
+}
+
+.message.sent::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 255, 0, 0.1),
+    transparent
+  );
+  animation: typewriter 1.5s steps(40, end) forwards;
+  z-index: -1;
 }
 
 .message.received {
-  background-color: #000033;
-  color: #00ffff;
+  background-color: var(--received-msg-bg);
+  color: var(--neon-blue);
   margin-right: auto;
-  border-color: #00ffff;
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 5% 100%, 0 80%);
+  border-color: var(--neon-blue);
+  border-radius: 10px 10px 10px 0;
+}
+
+.message.received::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 255, 255, 0.1),
+    transparent
+  );
+  animation: typewriter 1.5s steps(40, end) forwards;
+  z-index: -1;
 }
 
 .message-info {
@@ -306,11 +573,12 @@ button:hover::before {
 
 .chat-input {
   display: flex;
-  background-color: #111;
+  background-color: var(--panel-bg);
   padding: 15px;
-  border: 1px solid #00ff00;
+  border: 1px solid var(--neon-green);
   border-top: none;
   position: relative;
+  border-radius: 0 0 5px 5px;
 }
 
 .chat-input::before {
@@ -319,7 +587,7 @@ button:hover::before {
   left: 5px;
   top: 50%;
   transform: translateY(-50%);
-  color: #00ff00;
+  color: var(--neon-green);
   font-size: 14px;
   font-weight: bold;
 }
@@ -329,17 +597,24 @@ button:hover::before {
   margin-bottom: 0;
   margin-right: 10px;
   padding-left: 20px;
+  border-radius: 3px;
 }
 
 /* レスポンシブデザイン */
 @media (max-width: 768px) {
   .container {
     padding: 10px;
+    height: 100vh;
+    width: 100%;
+    margin: 0;
+    border-width: 1px;
+    border-radius: 0;
   }
 
   .chat-header {
     flex-direction: column;
     align-items: flex-start;
+    padding: 10px;
   }
 
   .chat-header p {
@@ -348,5 +623,18 @@ button:hover::before {
 
   .message {
     max-width: 90%;
+  }
+
+  h1 {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+  }
+
+  .screen.active::after {
+    font-size: 1.2rem;
+  }
+
+  .screen.active::before {
+    width: 150px;
   }
 }
