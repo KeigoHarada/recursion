@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from "uuid";
+
 /**
  * ルームモデル - チャットルームを管理
  */
@@ -9,7 +11,7 @@ class Room {
   }
 
   _generateRoomId() {
-    return Math.random().toString(36).substring(2, 8).toUpperCase();
+    return uuidv4();
   }
 
   getName() {
