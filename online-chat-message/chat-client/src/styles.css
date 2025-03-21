@@ -48,25 +48,6 @@ body {
   overflow: hidden;
 }
 
-body::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: radial-gradient(
-      circle at 50% 50%,
-      rgba(0, 255, 0, 0.1) 0%,
-      transparent 80%
-    ),
-    linear-gradient(rgba(0, 20, 0, 0.1) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 20, 0, 0.1) 1px, transparent 1px);
-  background-size: 100% 100%, 20px 20px, 20px 20px;
-  z-index: -1;
-  pointer-events: none;
-}
-
 .container {
   max-width: 1000px;
   margin: 0 auto;
@@ -82,7 +63,6 @@ body::before {
   flex-direction: column;
   justify-content: center;
   background-color: rgba(0, 0, 0, 0.8);
-  z-index: 1;
 }
 
 /* 見出し */
@@ -123,15 +103,6 @@ h2 {
   }
 }
 
-@keyframes scanline {
-  0% {
-    transform: translateY(-100%);
-  }
-  100% {
-    transform: translateY(100%);
-  }
-}
-
 @keyframes blink {
   0%,
   49% {
@@ -140,50 +111,6 @@ h2 {
   50%,
   100% {
     border-color: transparent;
-  }
-}
-
-@keyframes loading {
-  0% {
-    content: "LOADING";
-  }
-  25% {
-    content: "LOADING.";
-  }
-  50% {
-    content: "LOADING..";
-  }
-  75% {
-    content: "LOADING...";
-  }
-  100% {
-    content: "LOADING";
-  }
-}
-
-@keyframes loadingBar {
-  0% {
-    width: 0;
-  }
-  20% {
-    width: 20%;
-    background-color: var(--neon-blue);
-  }
-  40% {
-    width: 40%;
-    background-color: var(--neon-pink);
-  }
-  60% {
-    width: 60%;
-    background-color: var(--neon-blue);
-  }
-  80% {
-    width: 80%;
-    background-color: var(--neon-green);
-  }
-  100% {
-    width: 100%;
-    background-color: var(--neon-green);
   }
 }
 
@@ -203,36 +130,6 @@ h2 {
   }
   50% {
     border-right-color: transparent;
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes fadeOut {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-    visibility: hidden;
-  }
-}
-
-@keyframes matrixRain {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(100vw);
   }
 }
 
@@ -288,72 +185,6 @@ h2 {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.screen::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background: rgba(0, 255, 0, 0.5);
-  animation: scanline 8s linear infinite;
-  pointer-events: none;
-  z-index: 999;
-}
-
-.screen.active {
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  justify-content: center;
-  align-items: center;
-}
-
-.screen.active::after {
-  content: "LOADING";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: var(--neon-green);
-  font-size: var(--font-size-xxl);
-  z-index: 1000;
-  animation: loading 1.5s steps(1) infinite, fadeOut 0.5s ease-out 3s forwards;
-  opacity: 1;
-  pointer-events: none;
-}
-
-.screen.active::before {
-  content: "";
-  position: absolute;
-  top: 60%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 200px;
-  height: 10px;
-  background-color: transparent;
-  border: 1px solid var(--neon-green);
-  z-index: 1000;
-  animation: fadeOut 0.5s ease-out 3s forwards;
-}
-
-.loading-bar {
-  position: absolute;
-  top: 60%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0;
-  height: 8px;
-  background-color: var(--neon-green);
-  z-index: 1001;
-  animation: loadingBar 3s forwards, fadeOut 0.5s ease-out 3s forwards;
-}
-
-.screen.active > * {
-  opacity: 0;
-  animation: fadeIn 0.5s ease-out 3s forwards;
 }
 
 /* フォーム要素 */
@@ -656,13 +487,5 @@ button:hover::before {
   h1 {
     font-size: 1.2rem;
     margin-bottom: 15px;
-  }
-
-  .screen.active::after {
-    font-size: 1.2rem;
-  }
-
-  .screen.active::before {
-    width: 150px;
   }
 }

@@ -150,16 +150,12 @@ class UIController {
 
   _switchToChat() {
     console.log("Switching to chat screen");
-    this.roomScreen.classList.remove("active");
-    this.chatScreen.classList.add("active");
     this.chatMessagesElement.innerHTML = "";
     this.messageInput.focus();
   }
 
   _switchToRoomScreen() {
     console.log("Switching to room screen");
-    this.chatScreen.classList.remove("active");
-    this.roomScreen.classList.add("active");
 
     // フォームをリセット
     this.createRoomInput.value = "";
